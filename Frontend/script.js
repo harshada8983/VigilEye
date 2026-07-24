@@ -1,4 +1,4 @@
-const BACKEND_URL = "http://localhost:5000/analyze"; // change to Render URL later
+const BACKEND_URL = "https://vigileye-1sj9.onrender.com/analyze"; 
 const video = document.getElementById('video');
 const canvas = document.getElementById('canvas');
 const startBtn = document.getElementById('startBtn');
