@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Driver Drowsiness Detection</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Real-Time Driver Drowsiness Detection</h1>
+        <p class="subtitle">Built with OpenCV + Mediapipe + Flask</p>
+        
+        <div class="video-wrapper">
+
+            <video id="video" autoplay muted playsinline></video>
+            <canvas id="canvas" style="display:none;"></canvas>
+
+        </div>
+
+        <div id="status" class="status active">Click "Start" to begin</div>
+
+        <div id="ear-display">EAR: --</div>
+
+        <button id="startBtn">Start Camera</button>
+
+        <audio id="alarmSound" src="alarm.wav"></audio>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
