@@ -30,7 +30,7 @@ startBtn.addEventListener('click', async () => {
 
         // capture + send a frame every 300ms
 
-        intervalId = setInterval(captureAndAnalyze, 300);
+        intervalId = setInterval(captureAndAnalyze, 1000);
 
     } catch (err) {
 
