@@ -121,7 +121,7 @@ def analyze():
         img_bytes = base64.b64decode(image_data)
         np_arr = np.frombuffer(img_bytes, np.uint8)
         frame = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
-        frame = cv2.resize(frame, (320, 240))
+        frame = cv2.resize(frame, (240, 180))
         h, w, _ = frame.shape
         rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         with processing_lock:
