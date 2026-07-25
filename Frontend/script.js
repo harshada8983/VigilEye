@@ -57,8 +57,14 @@ function captureAndAnalyze() {
 
     })
 
-    .then(res => res.json())
-    .then(data => handleResult(data))
+    .then(res => {
+    console.log("Status:", res.status);  // ye line add karo
+    return res.json();
+    })
+    .then(data => {
+        console.log("Data:", data);  // ye line add karo
+        handleResult(data);
+    })
     .catch(err => console.error("Backend error:", err));
 
 }
