@@ -42,7 +42,7 @@ startBtn.addEventListener('click', async () => {
 });
 
 function captureAndAnalyze() {
-    if (isRequestPending) return;  
+    if (isRequestPending) return;  // skip this cycle if previous request hasn't finished yet
     isRequestPending = true;
 
     const context = canvas.getContext('2d');
@@ -52,19 +52,25 @@ function captureAndAnalyze() {
 
     const imageData = canvas.toDataURL('image/jpeg', 0.6);
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000); // force-cancel after 30s (Render free tier can be slow)
+
     fetch(BACKEND_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image: imageData })
+        body: JSON.stringify({ image: imageData }),
+        signal: controller.signal
     })
     .then(res => res.json())
     .then(data => {
+        clearTimeout(timeoutId);
         handleResult(data);
         isRequestPending = false;
     })
     .catch(err => {
+        clearTimeout(timeoutId);
         console.error("Backend error:", err);
-        isRequestPending = false;
+        isRequestPending = false;  // always reset, even on timeout/failure
     });
 }
 
