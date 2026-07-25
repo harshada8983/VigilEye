@@ -4,6 +4,8 @@ import cv2
 import mediapipe as mp
 import numpy as np
 import base64
+import threading
+processing_lock = threading.Lock()
 
 app = Flask(__name__)
 CORS(app)
@@ -122,7 +124,8 @@ def analyze():
         frame = cv2.resize(frame, (320, 240))
         h, w, _ = frame.shape
         rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        results = face_mesh.process(rgb_frame)
+        with processing_lock:
+           results = face_mesh.process(rgb_frame)
 
         if results.multi_face_landmarks:
 
