@@ -17,6 +17,7 @@ let yawnStart = null;
 let tiltStart = null;
 let alertPlaying = false;
 let intervalId = null;
+let isRequestPending = false;
 
 startBtn.addEventListener('click', async () => {
 
@@ -41,32 +42,30 @@ startBtn.addEventListener('click', async () => {
 });
 
 function captureAndAnalyze() {
+    if (isRequestPending) return;  
+    isRequestPending = true;
 
     const context = canvas.getContext('2d');
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-    const imageData = canvas.toDataURL('image/jpeg', 0.6); // 0.6 = compress for speed
+    const imageData = canvas.toDataURL('image/jpeg', 0.6);
 
     fetch(BACKEND_URL, {
-
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ image: imageData })
-
     })
-
-    .then(res => {
-    console.log("Status:", res.status);  // ye line add karo
-    return res.json();
-    })
+    .then(res => res.json())
     .then(data => {
-        console.log("Data:", data);  // ye line add karo
         handleResult(data);
+        isRequestPending = false;
     })
-    .catch(err => console.error("Backend error:", err));
-
+    .catch(err => {
+        console.error("Backend error:", err);
+        isRequestPending = false;
+    });
 }
 
 function handleResult(data) {
