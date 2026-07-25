@@ -8,10 +8,11 @@ import base64
 app = Flask(__name__)
 CORS(app)
 
-mp_face_mesh = mp.solutions.face_mesh
+mp_face_mesh = mp.solutions.face_mesh   # ye line missing thi
+
 face_mesh = mp_face_mesh.FaceMesh(
     max_num_faces=1,
-    refine_landmarks=True,
+    refine_landmarks=False,
     min_detection_confidence=0.5,
     min_tracking_confidence=0.5
 )
@@ -118,6 +119,7 @@ def analyze():
         img_bytes = base64.b64decode(image_data)
         np_arr = np.frombuffer(img_bytes, np.uint8)
         frame = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
+        frame = cv2.resize(frame, (320, 240))
         h, w, _ = frame.shape
         rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         results = face_mesh.process(rgb_frame)
