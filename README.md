@@ -1,18 +1,18 @@
- VigilEye — Real-Time Driver Drowsiness Detection System
+# 🚗 **VigilEye** — Real-Time Driver Drowsiness Detection System
 A full-stack computer vision system that monitors driver alertness in real time using facial landmark detection, and triggers instant audio-visual alerts before drowsiness becomes dangerous.
 
   
 
-🔗 [Try it live →](https://vigiley.netlify.app/)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Click%20Here-brightgreen?style=for-the-badge&logo=netlify)](https://vigiley.netlify.app/)
 
 
-# Overview
+📖 Overview
 Drowsy driving is one of the leading causes of road accidents worldwide, often striking without warning. VigilEye addresses this by continuously analyzing a driver's face through their webcam — tracking eye closure, yawning, and head posture — to detect the earliest physical signs of fatigue and alert the driver before it's too late.
 
 Unlike simple demos, VigilEye is architected as a genuine full-stack, deployed web application: a browser-based frontend that works on any device with a camera, talking in real time to a dedicated computer vision backend — no installation required for the end user.
 
 
-# Features
+✨ Features
 ** Eye Closure Detection — Calculates Eye Aspect Ratio (EAR) from 468-point facial landmarks to detect sustained eye closure
 ** Yawn Detection — Tracks Mouth Aspect Ratio (MAR) to identify yawning, a key drowsiness indicator
 ** Head Tilt / Nodding Detection — Uses 3D head pose estimation (via solvePnP) to catch the head-drooping motion common when dozing off
@@ -21,7 +21,7 @@ Unlike simple demos, VigilEye is architected as a genuine full-stack, deployed w
 ** Multi-Signal Robustness — Combines three independent signals (eyes, mouth, head pose), so the system stays useful even if one signal is temporarily unreliable (e.g., dark sunglasses affecting eye tracking)
 
 
-# Architecture
+🏗️ Architecture
 VigilEye is built as two independently deployed services communicating over a REST API:
 
 ┌─────────────────────────┐         ┌──────────────────────────────┐
@@ -45,26 +45,22 @@ VigilEye is built as two independently deployed services communicating over a RE
 Why this architecture? Separating concerns this way mirrors real-world production systems — a lightweight, globally-distributed static frontend paired with a dedicated backend service for heavy computation, rather than bundling everything into one monolith.
 
 
-# Tech Stack
-Layer
-Technology
-Frontend
-HTML5, CSS3, Vanilla JavaScript
-Backend
-Python, Flask, Gunicorn
-Computer Vision
-OpenCV, Mediapipe (Face Mesh — 468-point landmark model)
-Deployment
-Netlify (frontend), Railway (backend, Dockerized)
-Core Techniques
-Eye Aspect Ratio (EAR), Mouth Aspect Ratio (MAR), solvePnP head pose estimation
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| **Frontend** | HTML5, CSS3, Vanilla JavaScript |
+| **Backend** | Python, Flask, Gunicorn |
+| **Computer Vision** | OpenCV, Mediapipe (Face Mesh — 468-point landmark model) |
+| **Deployment** | Netlify (frontend), Railway (backend, Dockerized) |
+| **Core Techniques** | Eye Aspect Ratio (EAR), Mouth Aspect Ratio (MAR), solvePnP head pose estimation |
 
 **Live Services:**
 - Frontend: [vigiley.netlify.app](https://vigiley.netlify.app)
 - Backend API: [vigileye-production.up.railway.app](https://vigileye-production.up.railway.app)
 
 
-# How It Works
+🚀 How It Works
 The frontend captures a frame from the user's webcam every 300ms and sends it as a base64-encoded image to the backend via a REST API call.
 The backend runs Mediapipe's Face Mesh model on the frame, extracting 468 facial landmarks.
 From these landmarks, the backend computes:
@@ -75,7 +71,7 @@ These metrics are returned as JSON to the frontend.
 The frontend independently tracks how long each metric has been past its drowsiness threshold. If any signal (eyes closed, yawning, or head tilted) is sustained past its time limit, a visual and audio alert fires immediately.
 
 
-# Run It Locally
+💻 Run It Locally
 Backend
 cd backend
 
@@ -94,7 +90,7 @@ Open frontend/index.html with VS Code's Live Server extension (or any static ser
 Update the BACKEND_URL in frontend/script.js to point to your local backend (http://localhost:5000/analyze) when testing locally.
 
 
-# Engineering Challenges Solved
+🎯 Engineering Challenges Solved
 Building and deploying this project surfaced several real-world engineering problems beyond the core computer vision logic:
 
 Cross-service architecture: Designed and connected a decoupled frontend/backend system communicating over HTTPS with proper CORS handling
@@ -103,10 +99,10 @@ Dependency and environment management: Solved Python version mismatches and nati
 Request lifecycle management: Implemented request-locking and timeout handling on the frontend to prevent overlapping API calls from exhausting browser resources
 Graceful degradation: Designed the multi-signal detection logic so the system remains useful even when one signal (e.g., eye visibility with dark sunglasses) is compromised
 
-# License
+📄 License
 This project is open source and available for learning and reference purposes.
 
 
 
-**Built by Harshada** — [GitHub](https://github.com/harshada8983)
+Built by Harshada.
 
