@@ -1,4 +1,4 @@
-const BACKEND_URL = "https://vigileye-1sj9.onrender.com/analyze"; 
+const BACKEND_URL = "vigileye-production.up.railway.app/analyze"; 
 const video = document.getElementById('video');
 const canvas = document.getElementById('canvas');
 const startBtn = document.getElementById('startBtn');
